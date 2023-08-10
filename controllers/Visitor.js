@@ -30,16 +30,17 @@ export const getVisitiors = async (req, res) => {
 export const getVisitorsDetailed = async (req, res) => {
   try {
     const visitors = await Visitor.find();
-    const fetchPromises = visitors.map((e) => {
-      return fetch(
-        `http://api.ipstack.com/${e.ip}?access_key=${process.env.IPSTACK_API}`,
-      )
-        .then((res) => res.json())
-        .then((data) => data.country_name)
-        .catch((error) => {
-          console.error('Error fetching IP data:', error);
-          return null;
-        });
+
+    const fetchPromises = visitors.map(async (e) => {
+      try {
+        const response = await axios.get(
+          `http://api.ipstack.com/${e.ip}?access_key=${process.env.IPSTACK_API}`,
+        );
+        return response.data.country_name;
+      } catch (error) {
+        console.error('Error fetching IP data:', error);
+        return null;
+      }
     });
 
     const countries = await Promise.all(fetchPromises);

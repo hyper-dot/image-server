@@ -23,3 +23,6 @@ micros:
         - name: IMAGE_TOKEN
           description: secret message only available to this micro
           default: "deta is cool"
+        - name: IPSTACK_API
+          description: secret message only available to this micro
+          default: "deta is cool"

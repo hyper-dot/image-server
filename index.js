@@ -10,7 +10,11 @@ import {
   getOneProject,
   editProject,
 } from './controllers/project.js';
-import { addVisitor, getVisitiors } from './controllers/Visitor.js';
+import {
+  addVisitor,
+  getVisitiors,
+  getVisitorsDetailed,
+} from './controllers/Visitor.js';
 import { authMiddleware } from './utils/auth.js';
 import connect from './utils/db.js';
 import { upload } from './utils/cloudinary.js';
@@ -25,6 +29,7 @@ app.use(cors());
 
 app.post('/ip', addVisitor);
 app.get('/ip', getVisitiors);
+app.get('/ipdetailed', getVisitorsDetailed);
 
 // Project Post
 app.post(

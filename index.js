@@ -10,6 +10,7 @@ import {
   getOneProject,
   editProject,
 } from './controllers/project.js';
+import { addVisitor, getVisitiors } from './controllers/Visitor.js';
 import { authMiddleware } from './utils/auth.js';
 import connect from './utils/db.js';
 import { upload } from './utils/cloudinary.js';
@@ -18,8 +19,12 @@ import { upload } from './utils/cloudinary.js';
 connect(process.env.MONGO);
 
 // Middlewares
+app.set('trust proxy', true);
 app.use(express.json());
 app.use(cors());
+
+app.post('/ip', addVisitor);
+app.get('/ip', getVisitiors);
 
 // Project Post
 app.post(

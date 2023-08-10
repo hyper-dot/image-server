@@ -44,15 +44,20 @@ export const getVisitorsDetailed = async (req, res) => {
     });
 
     const countries = await Promise.all(fetchPromises);
-    const countryCount = {};
+
+    const countryCount = [];
 
     countries.forEach((country) => {
-      if (!countryCount[country]) {
-        countryCount[country] = 1;
+      const existingCountry = countryCount.find(
+        (item) => item.country === country,
+      );
+      if (existingCountry) {
+        existingCountry.count++;
       } else {
-        countryCount[country]++;
+        countryCount.push({ country, count: 1 });
       }
     });
+
     res.status(200).json(countryCount);
   } catch (err) {
     console.log(err);

@@ -27,9 +27,9 @@ app.set('trust proxy', true);
 app.use(express.json());
 app.use(cors());
 
-app.post('/ip', addVisitor);
-app.get('/ip', getVisitiors);
-app.get('/ipdetailed', getVisitorsDetailed);
+app.post('/ip', authMiddleware, addVisitor);
+app.get('/ip', authMiddleware, getVisitiors);
+app.get('/ipdetailed', authMiddleware, getVisitorsDetailed);
 
 // Project Post
 app.post(

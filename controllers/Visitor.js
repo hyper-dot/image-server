@@ -1,5 +1,6 @@
 import Visitor from '../models/Visitor.js';
 import axios from 'axios';
+import ipinfo from 'ipinfo';
 
 export const addVisitor = async (req, res) => {
   const { ip } = req.body;
@@ -33,12 +34,11 @@ export const getVisitorsDetailed = async (req, res) => {
 
     const fetchPromises = visitors.map(async (e) => {
       try {
-        const response = await axios.get(
-          `http://api.ipstack.com/${e.ip}?access_key=${process.env.IPSTACK_API}`,
-        );
-        return response.data.country_name;
-      } catch (error) {
-        console.error('Error fetching IP data:', error);
+        const res = await ipinfo(e.ip, 'dec2b9385eb179');
+        console.log(res);
+        return res.country;
+      } catch (err) {
+        console.log(err);
         return null;
       }
     });
